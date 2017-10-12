@@ -21,9 +21,18 @@ class Feed extends Component {
     }
 
     render() {
-        return (<div>
-            <Transaction />
-        </div>);
+        return (
+            <div className="panel">
+                <div className="panel-heading">
+                    <h3>Transactions</h3>
+                    <hr/>
+                </div>
+                <div className="panel-body">
+                    <Transaction />
+
+                </div>
+            </div>
+        );
     }
 }
 

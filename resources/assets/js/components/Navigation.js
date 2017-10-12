@@ -26,7 +26,8 @@ class Navigation extends Component {
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a>Account Placeholder</a></li>
+                            <li><a>Settings</a></li>
+                            <li><a>Logout</a></li>
                         </ul>
                     </div>
                 </div>

@@ -40,8 +40,16 @@ class Dashboard extends Component {
         return (
             <div>
                 <Navigation/>
-                <ControlPanel />
-                <Feed />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-3">
+                            <ControlPanel />
+                        </div>
+                        <div className="col-lg-9">
+                            <Feed />
+                        </div>
+                    </div>
+                </div>
             </div>);
     }
 }
