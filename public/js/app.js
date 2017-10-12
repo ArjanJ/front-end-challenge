@@ -32131,6 +32131,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+
 /**
  * Consolidates a user's transaction history across all accounts.
  * Sorting, filtering for data digestion.
@@ -32145,27 +32146,39 @@ var Dashboard = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call(this, props));
 
         _this.state = {
-            categories: [],
-            accounts: [],
-            transaction: [] //OG list
+            categories: [], //unlikely to change
+            accounts: [], //unlikely to change
+            transactions: [] //likely to change
         };
         return _this;
     }
 
+    /**
+     * Entry point for data to the app.
+     */
+
+
     _createClass(Dashboard, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            //TODO GET request
+            var _this2 = this;
+
+            fetch('http://demo7235469.mockable.io/transactions').then(function (response) {
+                return response.json();
+            }).then(function (response) {
+                _this2.setState({
+                    categories: response['categories'],
+                    accounts: response['accounts'],
+                    transactions: response['transactionData']
+                });
+            });
         }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {}
     }, {
         key: 'render',
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'container-fluid' },
+                null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Navigation__["a" /* default */], null),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ControlPanel__["a" /* default */], null),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Feed__["a" /* default */], null)
@@ -52302,7 +52315,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 /**
- *
+ * Top bar, mainly for aesthetics but potentially to intro actual nav.
  */
 
 var Navigation = function (_Component) {
@@ -52318,15 +52331,54 @@ var Navigation = function (_Component) {
     }
 
     _createClass(Navigation, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {}
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {}
-    }, {
-        key: 'render',
+        key: "render",
         value: function render() {
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null);
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "nav",
+                { className: "navbar navbar-default navbar-static-top" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "container" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "navbar-header" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "button",
+                            { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#navbar", "aria-expanded": "false", "aria-controls": "navbar" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "span",
+                                { className: "sr-only" },
+                                "Toggle navigation"
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "icon-bar" }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "icon-bar" }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "icon-bar" })
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "a",
+                            { className: "navbar-brand", href: "/" },
+                            "Transactions"
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { id: "navbar", className: "navbar-collapse collapse" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "ul",
+                            { className: "nav navbar-nav navbar-right" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "li",
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "a",
+                                    null,
+                                    "Account Placeholder"
+                                )
+                            )
+                        )
+                    )
+                )
+            );
         }
     }]);
 
