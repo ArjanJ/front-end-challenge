@@ -19,7 +19,7 @@ class ControlPanel extends Component {
     render() {
         return (
             <div className="panel">
-                <div className="panel-heading">Control Panel</div>
+                <div className="panel-heading"><h3>Control Panel</h3></div>
                 <div className="panel-body">
                     <div className="list-group">
                         <div className="list-group-heading">Categories</div>

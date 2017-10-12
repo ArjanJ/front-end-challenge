@@ -7,3 +7,8 @@ Using Laravel because of API built-ins and scaffolding.
 - Initialized Laravel project  
 - Installed and compiled assets  
 - Created the main components
+
+## Oct 12, 2017  
+
+- No longer doing Transaction component
+- Installed ReactTable to display feed

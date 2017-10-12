@@ -46,7 +46,7 @@ class Dashboard extends Component {
                             <ControlPanel />
                         </div>
                         <div className="col-lg-9">
-                            <Feed />
+                            <Feed transactions={this.state.transactions}/>
                         </div>
                     </div>
                 </div>
