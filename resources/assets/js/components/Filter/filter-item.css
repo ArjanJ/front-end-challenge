@@ -1,4 +1,12 @@
 .btn-filter-item {
     width:100%;
     text-align:left;
+    color:black;
+    background-color:white;
+    border:0;
+}
+
+.btn-filter-item.pressed {
+    background-color:#2ab27b;
+    color:#FFF;
 }

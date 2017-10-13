@@ -16,6 +16,25 @@ const defaultColumns = [{
     Header: 'Amount',
     accessor: 'amount'
 }];
+const allColumns = [{
+    Header: 'Date',
+    accessor: 'transactionDate'
+}, {
+    Header: 'Description',
+    accessor: 'description',
+}, {
+    Header: 'Category',
+    accessor:'category'
+}, {
+    Header: 'Amount',
+    accessor: 'amount'
+}, {
+    Header: 'Withdrawal',
+    accessor: 'withdrawal'
+}, {
+    Header: 'Deposit',
+    accessor: 'deposit',
+}];
 /**
  * Holds all transactions and filters them as needed.
  */
@@ -44,9 +63,16 @@ class Feed extends Component {
     componentWillReceiveProps(nextProps, prevState) {
         if(!this.isEmpty(nextProps.transactions)) {
             let processed = this.filter(nextProps.filters, nextProps.transactions.transactions);
+            let columns = [];
+            allColumns.map(item => {
+                if(nextProps.filters.columns.has(item.accessor)) {
+                    columns.push(item);
+                }
+            });
             this.setState({
                 transactions:nextProps.transactions.transactions,
                 processed:processed,
+                columns:columns
             });
         }
     }
@@ -79,13 +105,12 @@ class Feed extends Component {
     }
 
     render() {
-        console.log(this.props.filters.categories);
         return (
             <div className="panel">
                 <div className="panel-heading">
                     <h3>Transactions</h3> <Ticker processed={this.state.processed}/>
                     <hr/>
-                    <div>Tags: {this.props.filters.categories.size != 0 ? this.props.filters.categories :
+                    <div>Categories: {this.props.filters.categories.size != 0 ? this.props.filters.categories :
                         <span className="label label-default">No tags</span>}</div>
                 </div>
                 <div className="panel-body">
