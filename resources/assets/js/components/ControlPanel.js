@@ -38,10 +38,10 @@ class ControlPanel extends Component {
         this.process = this.process.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleTypeahead = this.handleTypeahead.bind(this);
+        this.resetFilters = this.resetFilters.bind(this);
     }
 
     componentDidMount() {
-
         this.setState({
             accounts:this.process(this.props.accounts, 'accountName', 'institutionName', 'accountId'),
             categories:this.props.categories,
@@ -129,12 +129,25 @@ class ControlPanel extends Component {
         return data;
     }
 
+    /**
+     * Clear the filters to default settings.
+     * @param e
+     */
+    resetFilters(e) {
+        console.log('resetting');
+        this.props.onFilterChange({
+            categories: new Set(),
+            accounts: new Set(),
+            columns: this.props.defaultColumns
+        });
+    }
+
     render() {
         return (
             <div className="panel">
                 <div className="panel-heading">
                     <h3>Control Panel</h3>
-                    <button className="btn btn-sm btn-danger" id="clear-filters-btn">Clear</button></div>
+                    <button className="btn btn-sm btn-danger" id="clear-filters-btn" onClick={this.resetFilters}>Clear</button></div>
                 <div className="panel-body">
                     <div className="list-group">
                         <div className="list-group-heading">Categories</div>

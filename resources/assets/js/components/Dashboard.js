@@ -22,7 +22,8 @@ class Dashboard extends Component {
                 categories:new Set,
                 columns:columnFilters,
                 accounts:new Set
-            }//currently being filtered
+            },//currently being filtered
+            defaultColumns:columnFilters
         };
         this.handleFilterChange = this.handleFilterChange.bind(this);
     }
@@ -64,12 +65,14 @@ class Dashboard extends Component {
                             <ControlPanel categories={this.state.categories}
                                           accounts={this.state.accounts}
                                           filters={this.state.filters}
+                                          defaultColumns={this.state.defaultColumns}
                                           onFilterChange={this.handleFilterChange}/>
                         </div>
                         <div className="col-lg-9">
                             <Feed transactions={this.state.transactions}
                                   filters={this.state.filters}
-                                  onFilterChange={this.handleFilterChange} />
+                                  onFilterChange={this.handleFilterChange}
+                            />
                         </div>
                     </div>
                 </div>
