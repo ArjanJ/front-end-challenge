@@ -1,0 +1,9 @@
+.amount {
+    font-weight:800;
+}
+.amount-positive {
+    color:green;
+}
+.amount-negative {
+    color:red;
+}

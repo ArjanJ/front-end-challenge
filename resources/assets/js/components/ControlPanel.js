@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FilterList from './Filter/FilterList';
+import {Typeahead} from 'react-bootstrap-typeahead';
+import './css/control-panel.css';
 /**
  * Side located control panel that shows category and account options.
  */
@@ -35,7 +37,7 @@ class ControlPanel extends Component {
         };
         this.process = this.process.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTypeahead = this.handleTypeahead.bind(this);
     }
 
     componentDidMount() {
@@ -51,7 +53,10 @@ class ControlPanel extends Component {
     componentWillReceiveProps(nextProps, prevState) {
         this.setState({
             accounts:this.process(nextProps.accounts, 'accountName', 'institutionName', 'accountId'),
-            categories:this.process(nextProps.categories, null, null, null)
+            categories:this.process(nextProps.categories, null, null, null),
+            accountFilter:nextProps.filters.accounts,
+            categoryFilter:nextProps.filters.categories,
+            columnfilter:nextProps.filters.categories
         });
     }
 
@@ -73,6 +78,14 @@ class ControlPanel extends Component {
                 });
                 this.setState({columnFilter:selected});
                 break;
+            case 'category':
+                this.props.onFilterChange({
+                    accounts:this.state.accountFilter,
+                    columns:this.state.columnFilter,
+                    categories:selected
+                });
+                this.setState({categoryFilter:selected});
+                break;
             default:
                 break;
         }
@@ -81,10 +94,17 @@ class ControlPanel extends Component {
 
     /**
      * Submitting tags
-     * @param e
+     * @param e     Array of values entered
      */
-    handleSubmit(e) {
-
+    handleTypeahead(e) {
+        if(e[0] != undefined) {
+            let typeaheads = new Set();
+            for(let filter of this.state.categoryFilter) {
+                typeaheads.add(filter);
+            }
+            typeaheads.add(e[0]);
+            this.handleSelectChange('category', typeaheads);
+        }
     }
 
     /**
@@ -110,16 +130,19 @@ class ControlPanel extends Component {
     }
 
     render() {
-        //TODO make filter lists dropdowns
         return (
             <div className="panel">
-                <div className="panel-heading"><h3>Control Panel</h3></div>
+                <div className="panel-heading">
+                    <h3>Control Panel</h3>
+                    <button className="btn btn-sm btn-danger" id="clear-filters-btn">Clear</button></div>
                 <div className="panel-body">
                     <div className="list-group">
                         <div className="list-group-heading">Categories</div>
                         <div>
-                            <input type="text" className="form-control" defaultValue="" onSubmit={this.handleSubmit}
-                                   placeholder='Filter by category'/>
+                            <Typeahead options={this.props.categories}
+                                       maxResults={5}
+                                       onChange={this.handleTypeahead}
+                                       submitFormOnEnter={true}/>
                         </div>
                         <br/>
                         <a className="list-group-heading" data-toggle="collapse" href="#accounts-filter-collapse">Accounts</a>
