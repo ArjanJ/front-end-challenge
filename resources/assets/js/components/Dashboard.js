@@ -68,7 +68,8 @@ class Dashboard extends Component {
                         </div>
                         <div className="col-lg-9">
                             <Feed transactions={this.state.transactions}
-                                  filters={this.state.filters}/>
+                                  filters={this.state.filters}
+                                  onFilterChange={this.handleFilterChange} />
                         </div>
                     </div>
                 </div>

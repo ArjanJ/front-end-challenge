@@ -41,8 +41,13 @@ class Ticker extends Component {
         return (
             <div className="ticker-container">
                 <table className="table" id="ticker">
-                    <thead><tr><th>bal</th><th>count</th></tr></thead>
-                    <tbody><tr><td>{this.state.amount.toFixed(2)}</td><td>{this.state.rows}</td></tr></tbody>
+                    <thead><tr>
+                        <th>bal</th><th>count</th>
+                    </tr></thead>
+                    <tbody><tr>
+                        <td>{this.state.amount.toFixed(2)}</td>
+                        <td>{this.state.rows}</td>
+                    </tr></tbody>
                 </table>
             </div>
         );

@@ -6,3 +6,7 @@
     top:42px;
     border:0;
 }
+.ticker-container > table > thead > tr > th,
+.ticker-container > table > tbody > tr > td{
+    border:0;
+}
