@@ -79,7 +79,13 @@ class ControlPanel extends Component {
 
     }
 
+    /**
+     * Submitting tags
+     * @param e
+     */
+    handleSubmit(e) {
 
+    }
 
     /**
      * Process data that should be filterable.
