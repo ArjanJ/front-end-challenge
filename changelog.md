@@ -11,4 +11,7 @@ Using Laravel because of API built-ins and scaffolding.
 ## Oct 12, 2017  
 
 - No longer doing Transaction component
-- Installed ReactTable to display feed
+- Installed ReactTable to display feed  
+- Created lists that will trigger filtering
+- Added Ticker for balance and count  
+- Filtering functions
