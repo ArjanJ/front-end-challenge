@@ -12,18 +12,26 @@ class Dashboard extends Component {
 
     constructor(props) {
         super(props);
+        let columnFilters = new Set();
+        columnFilters.add('transactionDate').add('description').add('amount').add('category'); //default columns
         this.state = {
             categories:[], //unlikely to change
             accounts:[],   //unlikely to change
-            transactions:[] //likely to change
+            transactions:[], //likely to change,
+            filters:{
+                categories:new Set,
+                columns:columnFilters,
+                accounts:new Set
+            }//currently being filtered
         };
+        this.handleFilterChange = this.handleFilterChange.bind(this);
     }
 
     /**
      * Entry point for data to the app.
      */
     componentDidMount() {
-        fetch('http://demo7235469.mockable.io/transactions')
+        fetch('/api/transactions')
             .then(response => {
                 return response.json();
             })
@@ -36,6 +44,16 @@ class Dashboard extends Component {
             });
     }
 
+    /**
+     * Passes the filtered types to the correct location
+     * @param e {type, filtered}
+     */
+    handleFilterChange(e) {
+        this.setState({
+            filters:e
+        });
+    }
+
     render() {
         return (
             <div>
@@ -43,10 +61,14 @@ class Dashboard extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3">
-                            <ControlPanel />
+                            <ControlPanel categories={this.state.categories}
+                                          accounts={this.state.accounts}
+                                          filters={this.state.filters}
+                                          onFilterChange={this.handleFilterChange}/>
                         </div>
                         <div className="col-lg-9">
-                            <Feed transactions={this.state.transactions}/>
+                            <Feed transactions={this.state.transactions}
+                                  filters={this.state.filters}/>
                         </div>
                     </div>
                 </div>

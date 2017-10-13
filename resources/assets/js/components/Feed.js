@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Ticker from './Ticker';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
@@ -24,25 +25,53 @@ class Feed extends Component {
         super(props);
         this.state = {
             transactions:[],
+            processed:[],
             columns:defaultColumns
         };
         this.isEmpty = this.isEmpty.bind(this);
+        this.filter = this.filter.bind(this);
     }
 
     componentDidMount() {
         if(!this.isEmpty(this.props.transactions)) {
             this.setState({
-                transactions:this.props.transactions.transactions
+                transactions:this.props.transactions.transactions,
+                processed:this.props.transactions.transactions
             })
         }
     }
 
     componentWillReceiveProps(nextProps, prevState) {
         if(!this.isEmpty(nextProps.transactions)) {
+            let processed = this.filter(nextProps.filters, nextProps.transactions.transactions);
             this.setState({
-                transactions:nextProps.transactions.transactions
-            })
+                transactions:nextProps.transactions.transactions,
+                processed:processed,
+            });
         }
+    }
+
+    /**
+     * Only filter when receiving new props.
+     * @param filters
+     * @param transactions
+     * @returns {*}
+     */
+    filter(filters, transactions) {
+        let accounts = filters.accounts;
+        let categories = filters.categories;
+        if(accounts.size == 0 && categories.size == 0) {
+            return transactions;
+        }
+        let filtered = transactions.filter(transaction => {
+            if(accounts.size == 0) {
+                return categories.has(transaction.category);
+            } else if(categories.size == 0) {
+                return accounts.has(transaction.accountId);
+            }
+            return categories.has(transaction.category) && accounts.has(transaction.accountId);
+        });
+        return filtered;
     }
 
     isEmpty(obj) {
@@ -50,18 +79,19 @@ class Feed extends Component {
     }
 
     render() {
+        console.log(this.props.filters.categories);
         return (
             <div className="panel">
                 <div className="panel-heading">
-                    <h3>Transactions</h3>
-                    <div>Tags go here</div>
+                    <h3>Transactions</h3> <Ticker processed={this.state.processed}/>
                     <hr/>
+                    <div>Tags: {this.props.filters.categories.size != 0 ? this.props.filters.categories :
+                        <span className="label label-default">No tags</span>}</div>
                 </div>
                 <div className="panel-body">
-                    {!this.isEmpty(this.state.transactions) &&
-                        <ReactTable data={this.state.transactions}
-                                    columns={this.state.columns}
-                                    filterable={true}/>}
+                    {!this.isEmpty(this.state.processed) &&
+                        <ReactTable data={this.state.processed}
+                                    columns={this.state.columns}/>}
                 </div>
             </div>
         );
