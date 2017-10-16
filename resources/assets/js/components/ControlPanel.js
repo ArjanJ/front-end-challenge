@@ -144,13 +144,14 @@ class ControlPanel extends Component {
 
     render() {
         return (
-            <div className="panel">
+            <div className="panel panel-default control-panel">
                 <div className="panel-heading">
-                    <h3>Control Panel</h3>
-                    <button className="btn btn-sm btn-danger" id="clear-filters-btn" onClick={this.resetFilters}>Clear</button></div>
+                    <h3>Filter Options</h3>
+                    <button className="btn btn-sm btn-warning" id="clear-filters-btn" onClick={this.resetFilters}>Clear</button></div>
                 <div className="panel-body">
                     <div className="list-group">
-                        <div className="list-group-heading">Categories</div>
+                        <div className="list-group-item filter-types">
+                            <a>Categories</a></div>
                         <div>
                             <Typeahead options={this.props.categories}
                                        maxResults={5}
@@ -158,8 +159,9 @@ class ControlPanel extends Component {
                                        submitFormOnEnter={true}/>
                         </div>
                         <br/>
-                        <a className="list-group-heading" data-toggle="collapse" href="#accounts-filter-collapse">Accounts</a>
-
+                        <div className="list-group-item filter-types">
+                            <a data-toggle="collapse" href="#accounts-filter-collapse">Accounts</a>
+                        </div>
                         <div className="collapse in" id="accounts-filter-collapse">
                             <FilterList type="accounts"
                                         data={this.state.accounts}
@@ -167,8 +169,9 @@ class ControlPanel extends Component {
                                         multi={false}
                                         onSelected={this.handleSelectChange}/>
                         </div>
-                        <br/>
-                        <a className="list-group-heading" data-toggle="collapse" href="#columns-filter-collapse">Display options</a>
+                        <div className="list-group-item filter-types">
+                            <a data-toggle="collapse" href="#columns-filter-collapse">Display options</a>
+                        </div>
                         <div className="collapse" id="columns-filter-collapse">
                             <FilterList type="columns"
                                         data={this.state.columns}

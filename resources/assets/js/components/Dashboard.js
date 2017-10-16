@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Navigation from './Navigation';
 import ControlPanel from './ControlPanel';
 import Feed from './Feed';
-
+import './css/dashboard.css';
 /**
  * Consolidates a user's transaction history across all accounts.
  * Sorting, filtering for data digestion.
@@ -37,10 +37,20 @@ class Dashboard extends Component {
                 return response.json();
             })
             .then(response => {
+                //doing all the underscore replacements once up front
+                let cattransform = [];
+                response['categories'].map(cat => {
+                    cattransform.push(cat.replace(/_/g, " "));
+                });
+                let ttransform = [];
+                response['transactionData']['transactions'].map(transaction => {
+                    transaction.category = transaction.category != undefined ? transaction.category.replace(/_/g, " "):transaction.category;
+                    ttransform.push(transaction);
+                });
                 this.setState({
-                    categories:response['categories'],
+                    categories:cattransform,
                     accounts:response['accounts'],
-                    transactions:response['transactionData']
+                    transactions:ttransform
                 });
             });
     }

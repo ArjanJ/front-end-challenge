@@ -1,0 +1,31 @@
+.navbar-default {
+    background-color:#015249!important;
+}
+.navbar {
+    min-height:65px;
+}
+.navbar > .container {
+    padding-top:5px;
+}
+.navbar-brand {
+    text-transform:uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-weight:500;
+    font-size:24px;
+}
+ul.nav.navbar-nav {
+    font-family: 'Roboto', sans-serif;
+    font-weight:400;
+    font-size:16px;
+}
+.panel.panel-default.feed > .panel-heading {
+    background-color:#77C9D4;
+    color:white;
+}
+.panel.panel-default.control-panel > .panel-heading {
+    background-color:#57BC90;
+    color:white;
+}
+.panel > .panel-heading > h3{
+    font-weight:400;
+}

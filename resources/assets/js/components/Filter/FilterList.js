@@ -78,7 +78,7 @@ class FilterList extends Component {
 
     render() {
         return (
-            <div>
+            <div className="list-group">
                 {this.renderItems()}
             </div>
         );

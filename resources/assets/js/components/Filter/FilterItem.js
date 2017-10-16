@@ -41,7 +41,7 @@ class FilterItem extends Component {
         return (
             <div className="form-check">
                 <button className={this.state.selected ? 'btn-filter-item pressed':'btn-filter-item' } onClick={this.handleChange}>
-                    <h6>{data.title}<br/>{data.subtitle != '' ? <span>{data.subtitle}</span> : null}</h6>
+                    <h5>{data.title}<br/>{data.subtitle != '' ? <span>{data.subtitle}</span> : null}</h5>
                 </button>
             </div>
         );

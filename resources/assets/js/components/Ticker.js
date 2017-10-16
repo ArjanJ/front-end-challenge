@@ -16,17 +16,22 @@ class Ticker extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            amount:this.calculate(this.props.processed),
-            rows:this.props.processed.length
-        });
+        if(this.props.processed != undefined) {
+            this.setState({
+                amount:this.calculate(this.props.processed),
+                rows:this.props.processed.length
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps, prevState) {
-        this.setState({
-            amount:this.calculate(nextProps.processed),
-            rows:nextProps.processed.length
-        });
+        console.log(nextProps.processed)
+        if(nextProps.processed != undefined) {
+            this.setState({
+                amount: this.calculate(nextProps.processed),
+                rows: nextProps.processed.length
+            });
+        }
     }
 
     calculate(processed) {

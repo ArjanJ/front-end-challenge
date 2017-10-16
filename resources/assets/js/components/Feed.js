@@ -3,19 +3,6 @@ import Ticker from './Ticker';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import './css/feed.css';
-/*const defaultColumns = [{
-    Header: 'Date',
-    accessor: 'transactionDate'
-}, {
-    Header: 'Description',
-    accessor: 'description',
-}, {
-    Header: 'Category',
-    accessor:'category'
-}, {
-    Header: 'Amount',
-    accessor: 'amount'
-}];*/
 const allColumns = [{
     Header: 'Date',
     accessor: 'transactionDate',
@@ -30,7 +17,7 @@ const allColumns = [{
     Cell: props => <span className={props.value < 0 ? 'amount amount-negative':'amount amount-positive'}>{props.value}</span>
 }, {
     Header: 'Category',
-    accessor:'category'
+    accessor:'category',
 }, {
     Header: 'Withdrawal',
     accessor: 'withdrawal',
@@ -60,15 +47,15 @@ class Feed extends Component {
     componentDidMount() {
         if(!this.isEmpty(this.props.transactions)) {
             this.setState({
-                transactions:this.props.transactions.transactions,
-                processed:this.props.transactions.transactions
+                transactions:this.props.transactions,
+                processed:this.props.transactions
             })
         }
     }
 
     componentWillReceiveProps(nextProps, prevState) {
         if(!this.isEmpty(nextProps.transactions)) {
-            let processed = this.filter(nextProps.filters, nextProps.transactions.transactions);
+            let processed = this.filter(nextProps.filters, nextProps.transactions);
             let columns = [];
             allColumns.map(item => {
                 if(nextProps.filters.columns.has(item.accessor)) {
@@ -92,7 +79,7 @@ class Feed extends Component {
     filter(filters, transactions) {
         let accounts = filters.accounts;
         let categories = filters.categories;
-        if(accounts.size == 0 && categories.size == 0) {
+        if(accounts.size == 0 && categories.size == 0) { //no filters
             return transactions;
         }
         let filtered = transactions.filter(transaction => {
@@ -129,22 +116,24 @@ class Feed extends Component {
         let categories = [];
         for(let c of this.props.filters.categories) {
             categories.push(
-                <span className="label label-primary" key={'feed-tag-category-'+c}>{c}
+                <span className="label label-primary category-tag" key={'feed-tag-category-'+c}>{c}
                 <a onClick={this.dismissCategory} data-id={c} style={{color:"white"}}>
                     <i className="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
                 </span>
             );
         }
         return (
-            <div className="panel">
+            <div className="panel panel-default feed">
                 <div className="panel-heading">
-                    <h3>Transactions</h3> <Ticker processed={this.state.processed}/>
-                    <hr/>
+                    <h3>Overview</h3>
+                </div>
+                <div className="panel-body">
                     <div>Categories: {this.props.filters.categories.size != 0 ? categories :
                         <span className="label label-default">No selected categories</span>}
                     </div>
-                </div>
-                <div className="panel-body">
+                    <Ticker processed={this.state.processed}/>
+                    <hr/>
+
                     {!this.isEmpty(this.state.processed) ?
                         <ReactTable data={this.state.processed}
                                     columns={this.state.columns}/> :

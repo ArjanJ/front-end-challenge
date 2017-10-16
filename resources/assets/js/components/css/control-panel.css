@@ -2,4 +2,15 @@
     position: absolute;
     top: 30px;
     right: 30px;
+    border-radius:60px;
+}
+.filter-types {
+    background:#f7f7f7;
+    border:0;
+}
+.filter-types > a {
+    color:black;
+}
+.filter-types > a:hover {
+    text-decoration:none;
 }
