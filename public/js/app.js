@@ -38516,7 +38516,7 @@ var Dashboard = function (_Component) {
             loading: true,
             categories: [], //unlikely to change
             accounts: [], //unlikely to change
-            transactions: [], //likely to change
+            transactions: [], //unlikely to change
             processed: [],
             filters: {
                 categories: new Set(),
@@ -38667,7 +38667,8 @@ var Dashboard = function (_Component) {
                     this.state.loading ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'loader-spinner' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/images/Ellipsis.svg', alt: 'loader from https://loading.io/spinner/ellipsis\'', title: 'https://loading.io/spinner/ellipsis\'' })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/images/Ellipsis.svg', alt: 'loader from https://loading.io/spinner/ellipsis\'',
+                            title: 'https://loading.io/spinner/ellipsis\'' })
                     ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'row' },

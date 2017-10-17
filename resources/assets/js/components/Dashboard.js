@@ -20,7 +20,7 @@ class Dashboard extends Component {
             loading: true,
             categories:[], //unlikely to change
             accounts:[],   //unlikely to change
-            transactions:[], //likely to change
+            transactions:[], //unlikely to change
             processed:[],
             filters:{
                 categories:new Set,
@@ -127,7 +127,8 @@ class Dashboard extends Component {
                 <div className="container">
                     {this.state.loading ?
                         <div className="loader-spinner">
-                            <img src="/images/Ellipsis.svg" alt="loader from https://loading.io/spinner/ellipsis'" title="https://loading.io/spinner/ellipsis'"/>
+                            <img src="/images/Ellipsis.svg" alt="loader from https://loading.io/spinner/ellipsis'"
+                                 title="https://loading.io/spinner/ellipsis'"/>
                         </div> :
                     <div className="row">
                         <div className="col-lg-3">
