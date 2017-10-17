@@ -40,7 +40,7 @@ class ControlPanel extends Component {
             Header: 'Deposit',
             accessor: 'deposit',
         }, {
-            Header: 'Balance',
+            Header: 'Running Balance',
             accessor: 'runningBalance'
         }], 'Header',null,'accessor');
     }
@@ -163,24 +163,25 @@ class ControlPanel extends Component {
 
     render() {
         return (
-            <div className="panel panel-default control-panel">
+            <div className="panel dashboard-section control-panel">
                 <div className="panel-heading">
                     <h3>Filter Options</h3>
                     <button className="btn btn-sm btn-default" id="clear-filters-btn" onClick={this.resetFilters}>Reset</button></div>
                 <div className="panel-body">
                     <div className="list-group">
-                        <a className="list-group-item filter-types">Categories</a>
-                        <div>
+                        <a data-toggle="collapse" className="list-group-item filter-types" href="#category-filter-collapse">Categories</a>
+                        <div className="collapse in" id="category-filter-collapse">
                             <Typeahead multiple
                                        options={this.props.categories}
                                        maxResults={5}
+                                       placeholder="Filter by categories"
                                        onChange={this.handleTypeahead}
+                                       submitFormOnEnter={true}
                                        selected={Array.from(this.state.categoryFilter)}
                                        ref="typeahead"/>
+                            <br/>
                         </div>
-                        <br/>
                         <a data-toggle="collapse" className="list-group-item filter-types" href="#date-filter-collapse">Dates</a>
-
                         <div className="collapse in" id="date-filter-collapse">
                             <div className="form-group form-inline">
                                 <label className="control-label control-panel">Start</label>

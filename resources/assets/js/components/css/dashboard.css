@@ -21,13 +21,14 @@ ul.nav.navbar-nav {
     font-weight:400;
     font-size:16px;
 }
-.panel.panel-default.feed > .panel-heading,
-.panel.panel-default.control-panel > .panel-heading{
+.panel.dashboard-section > .panel-heading{
     background-color:#80a352;
     color:white;
+    height:60px;
 }
 .panel > .panel-heading > h3{
     font-weight:400;
+    margin-top:10px;
 }
 .loader-spinner {
     height:100%;

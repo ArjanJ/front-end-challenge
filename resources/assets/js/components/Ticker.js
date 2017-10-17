@@ -44,12 +44,12 @@ class Ticker extends Component {
     render() {
         return (
             <div className="ticker-container">
-                <span>balance </span>
+                <span>calculated balance </span>
                 <span className={this.state.amount < 0 ? 'amount amount-negative':'amount amount-positive'}>
                     ${((this.state.amount*100)/100).toFixed(2)}&nbsp;
                 </span>
-                <span>count </span>
-                <span>{this.state.rows}</span>
+                <span># of transactions </span>
+                <span className="amount">{this.state.rows}</span>
             </div>
         );
     }

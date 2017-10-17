@@ -35,9 +35,9 @@ const allColumns = [{
     className: 'currency-field',
     Cell: props => <span className="amount amount-positive">{props.value?'$'+(props.value*100/100).toFixed(2):null}</span>
 }, {
-    Header: 'Balance',
+    Header: 'Running Balance',
     accessor: 'runningBalance',
-    maxWidth: 90,
+    maxWidth: 130,
     className: 'currency-field',
     Cell: props => <span className={props.value != 0 ? (props.value < 0 ? 'amount amount-negative':'amount amount-positive') : 'amount amount-neutral'}>
         ${((props.value*100)/100).toFixed(2)}
@@ -119,9 +119,9 @@ class Feed extends Component {
             );
         }
         return (
-            <div className="panel panel-default feed">
+            <div className="panel dashboard-section">
                 <div className="panel-heading">
-                    <h3>Overview</h3>
+                    <h3>Activity</h3>
                 </div>
                 <div className="panel-body">
                     <div className="row feed-summary">
