@@ -4979,6 +4979,13 @@ react-bootstrap-typeahead@^2.0.0-alpha.4:
     react-overlays "^0.8.1"
     warning "^3.0.0"
 
+react-chartjs-2@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-2.6.4.tgz#6474d4480a6c74f2061ee0bbbe6d0f4db2170a81"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.8"
+
 react-dom@^16.0.0:
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.0.0.tgz#9cc3079c3dcd70d4c6e01b84aab2a7e34c303f58"

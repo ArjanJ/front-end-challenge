@@ -20,7 +20,7 @@ class Dashboard extends Component {
             loading: true,
             categories:[], //unlikely to change
             accounts:[],   //unlikely to change
-            transactions:[], //likely to change
+            transactions:[], //unlikely to change
             processed:[],
             filters:{
                 categories:new Set,
@@ -38,7 +38,7 @@ class Dashboard extends Component {
      * Entry point for data to the app.
      */
     componentDidMount() {
-        fetch('/api/transactions')
+        fetch('http://demo7235469.mockable.io/transactions')
             .then(response => {
                 return response.json();
             })
@@ -127,16 +127,17 @@ class Dashboard extends Component {
                 <div className="container">
                     {this.state.loading ?
                         <div className="loader-spinner">
-                            <img src="/images/Ellipsis.svg" alt="loader from https://loading.io/spinner/ellipsis'" title="https://loading.io/spinner/ellipsis'"/>
+                            <img src="/images/Ellipsis.svg" alt="loader from https://loading.io/spinner/ellipsis'"
+                                 title="https://loading.io/spinner/ellipsis'"/>
                         </div> :
                     <div className="row">
                         <div className="col-lg-3">
+                            <Statistics transactions={this.state.processed}/>
                             <ControlPanel categories={this.state.categories}
                                           accounts={this.state.accounts}
                                           filters={this.state.filters}
                                           defaultColumns={this.state.defaultColumns}
                                           onFilterChange={this.handleFilterChange}/>
-                            <Statistics />
                         </div>
                         <div className="col-lg-9">
                             <Feed transactions={this.state.processed}

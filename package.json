@@ -20,6 +20,7 @@
         "lodash": "^4.17.4",
         "react": "^16.0.0",
         "react-bootstrap-typeahead": "^2.0.0-alpha.4",
+        "react-chartjs-2": "^2.6.4",
         "react-dom": "^16.0.0",
         "vue": "^2.1.10"
     },
