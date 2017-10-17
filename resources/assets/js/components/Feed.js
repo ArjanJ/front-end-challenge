@@ -11,21 +11,37 @@ const allColumns = [{
     Header: 'Description',
     accessor: 'description',
 }, {
-    Header: 'Amount',
-    accessor: 'amount',
-    maxWidth: 120,
-    Cell: props => <span className={props.value < 0 ? 'amount amount-negative':'amount amount-positive'}>{props.value}</span>
-}, {
     Header: 'Category',
     accessor:'category',
+    maxWidth:160
+}, {
+    Header: 'Amount',
+    accessor: 'amount',
+    maxWidth: 90,
+    className: 'currency-field',
+    Cell: props => <span className={props.value < 0 ? 'amount amount-negative':'amount amount-positive'}>
+        ${((props.value*100)/100).toFixed(2)}
+        </span>
 }, {
     Header: 'Withdrawal',
     accessor: 'withdrawal',
-    Cell: props => <span className="amount amount-negative">{props.value}</span>
+    maxWidth: 90,
+    className: 'currency-field',
+    Cell: props => <span className="amount amount-negative">{props.value?'$'+(props.value*100/100).toFixed(2):null}</span>
 }, {
     Header: 'Deposit',
     accessor: 'deposit',
-    Cell: props => <span className="amount amount-positive">{props.value}</span>
+    maxWidth: 90,
+    className: 'currency-field',
+    Cell: props => <span className="amount amount-positive">{props.value?'$'+(props.value*100/100).toFixed(2):null}</span>
+}, {
+    Header: 'Balance',
+    accessor: 'runningBalance',
+    maxWidth: 90,
+    className: 'currency-field',
+    Cell: props => <span className={props.value != 0 ? (props.value < 0 ? 'amount amount-negative':'amount amount-positive') : 'amount amount-neutral'}>
+        ${((props.value*100)/100).toFixed(2)}
+    </span>
 }];
 /**
  * Holds all transactions and filters them as needed.
@@ -36,26 +52,29 @@ class Feed extends Component {
         super(props);
         this.state = {
             transactions:[],
-            processed:[],
             columns:[]
         };
         this.isEmpty = this.isEmpty.bind(this);
-        this.filter = this.filter.bind(this);
         this.dismissCategory = this.dismissCategory.bind(this);
     }
 
     componentDidMount() {
         if(!this.isEmpty(this.props.transactions)) {
+            let columns = [];
+            allColumns.map(item => {
+                if(this.props.filters.columns.has(item.accessor)) {
+                    columns.push(item);
+                }
+            });
             this.setState({
                 transactions:this.props.transactions,
-                processed:this.props.transactions
+                columns:columns
             })
         }
     }
 
     componentWillReceiveProps(nextProps, prevState) {
         if(!this.isEmpty(nextProps.transactions)) {
-            let processed = this.filter(nextProps.filters, nextProps.transactions);
             let columns = [];
             allColumns.map(item => {
                 if(nextProps.filters.columns.has(item.accessor)) {
@@ -63,34 +82,10 @@ class Feed extends Component {
                 }
             });
             this.setState({
-                transactions:nextProps.transactions.transactions,
-                processed:processed,
+                transactions:nextProps.transactions,
                 columns:columns
             });
         }
-    }
-
-    /**
-     * Only filter when receiving new props.
-     * @param filters
-     * @param transactions
-     * @returns {*}
-     */
-    filter(filters, transactions) {
-        let accounts = filters.accounts;
-        let categories = filters.categories;
-        if(accounts.size == 0 && categories.size == 0) { //no filters
-            return transactions;
-        }
-        let filtered = transactions.filter(transaction => {
-            if(accounts.size == 0) {
-                return categories.has(transaction.category);
-            } else if(categories.size == 0) {
-                return accounts.has(transaction.accountId);
-            }
-            return categories.has(transaction.category) && accounts.has(transaction.accountId);
-        });
-        return filtered;
     }
 
     isEmpty(obj) {
@@ -105,9 +100,10 @@ class Feed extends Component {
         }
         replacement.delete(id);
         let filters = {
-            categories:replacement,
             accounts:this.props.filters.accounts,
-            columns:this.props.filters.columns
+            categories:replacement,
+            columns:this.props.filters.columns,
+            dates:this.props.filters.dates
         };
         this.props.onFilterChange(filters);
     }
@@ -128,16 +124,21 @@ class Feed extends Component {
                     <h3>Overview</h3>
                 </div>
                 <div className="panel-body">
-                    <div>Categories: {this.props.filters.categories.size != 0 ? categories :
-                        <span className="label label-default">No selected categories</span>}
+                    <div className="row feed-summary">
+                        <div className="col-lg-8 col-sm-12 col-xs-12">
+                            <div>Categories: {this.props.filters.categories.size != 0 ? categories :
+                                <span className="label label-default">No selected categories</span>}
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-sm-12 col-xs-12">
+                            <Ticker processed={this.props.transactions}/>
+                        </div>
                     </div>
-                    <Ticker processed={this.state.processed}/>
                     <hr/>
-
-                    {!this.isEmpty(this.state.processed) ?
-                        <ReactTable data={this.state.processed}
-                                    columns={this.state.columns}/> :
-                        <div><h3>No matching transactions</h3></div>}
+                    <ReactTable data={this.props.transactions}
+                                noDataText="No data to show!"
+                                columns={this.state.columns}
+                                className="-striped -higlight"/>
                 </div>
             </div>
         );

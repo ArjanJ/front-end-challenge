@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FilterList from './Filter/FilterList';
 import {Typeahead} from 'react-bootstrap-typeahead';
 import './css/control-panel.css';
+import * as validation from '../scripts/validation';
 /**
  * Side located control panel that shows category and account options.
  */
@@ -10,86 +11,103 @@ class ControlPanel extends Component {
     constructor(props) {
         super(props); //don't actually need state probably
         this.state = {
-            accounts:[],
-            categories:[],
-            columns:[{
-                Header: 'Date',
-                accessor: 'transactionDate'
-            }, {
-                Header: 'Description',
-                accessor: 'description',
-            }, {
-                Header: 'Category',
-                accessor:'category'
-            }, {
-                Header: 'Amount',
-                accessor: 'amount'
-            }, {
-                Header: 'Withdrawal',
-                accessor: 'withdrawal'
-            }, {
-                Header: 'Deposit',
-                accessor: 'deposit',
-            }],
             accountFilter: new Set, //actual accounts and categories as props
             categoryFilter: new Set,
-            columnFilter: new Set
+            columnFilter: new Set,
+            dateFilter: {start:'', end:''}
         };
         this.process = this.process.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleTypeahead = this.handleTypeahead.bind(this);
         this.resetFilters = this.resetFilters.bind(this);
+        this.handleDateFilter = this.handleDateFilter.bind(this);
+        this.columns = this.process([{
+            Header: 'Date',
+            accessor: 'transactionDate'
+        }, {
+            Header: 'Description',
+            accessor: 'description',
+        }, {
+            Header: 'Category',
+            accessor:'category'
+        }, {
+            Header: 'Amount',
+            accessor: 'amount'
+        }, {
+            Header: 'Withdrawal',
+            accessor: 'withdrawal'
+        }, {
+            Header: 'Deposit',
+            accessor: 'deposit',
+        }, {
+            Header: 'Balance',
+            accessor: 'runningBalance'
+        }], 'Header',null,'accessor');
     }
 
     componentDidMount() {
         this.setState({
-            accounts:this.process(this.props.accounts, 'accountName', 'institutionName', 'accountId'),
-            categories:this.props.categories,
-            columns:this.process(this.state.columns, 'Header', null, 'accessor'),
             columnFilter:this.props.filters.columns
         });
     }
 
     componentWillReceiveProps(nextProps, prevState) {
         this.setState({
-            accounts:this.process(nextProps.accounts, 'accountName', 'institutionName', 'accountId'),
-            categories:this.process(nextProps.categories, null, null, null),
             accountFilter:nextProps.filters.accounts,
             categoryFilter:nextProps.filters.categories,
-            columnfilter:nextProps.filters.categories
+            columnfilter:nextProps.filters.columns,
+            dateFilter:nextProps.filters.dates
         });
     }
 
     handleSelectChange(type, selected) {
+        let filters = {
+            accounts:this.state.accountFilter,
+            columns:this.state.columnFilter,
+            categories:this.state.categoryFilter,
+            dates:this.state.dateFilter
+        };
         switch(type) {
             case 'accounts':
-                this.props.onFilterChange({
-                    accounts:selected,
-                    columns:this.state.columnFilter,
-                    categories:this.state.categoryFilter
-                });
+                filters.accounts = selected;
                 this.setState({accountFilter:selected});
                 break;
             case 'columns':
-                this.props.onFilterChange({
-                    accounts:this.state.accountFilter,
-                    columns:selected,
-                    categories:this.state.categoryFilter
-                });
+                filters.columns = selected;
                 this.setState({columnFilter:selected});
                 break;
             case 'category':
-                this.props.onFilterChange({
-                    accounts:this.state.accountFilter,
-                    columns:this.state.columnFilter,
-                    categories:selected
-                });
+                filters.categories = selected;
                 this.setState({categoryFilter:selected});
                 break;
-            default:
+            case 'dates':
+                filters.dates = selected;
+                this.setState({dateFilter:selected});
                 break;
         }
+        this.props.onFilterChange(filters);
+    }
 
+    handleDateFilter(e) {
+        if(e.target.value != undefined) {
+            let dateArray = e.target.value.split('-');
+            let dateFilter = {
+                start:this.state.dateFilter.start,
+                end:this.state.dateFilter.end
+            };
+            if(e.target.id == 'start-date') {
+                if(validation.isValidDateOrder(e.target.value,dateFilter.end)) {
+                    dateFilter.start = e.target.value;
+                    this.handleSelectChange('dates', dateFilter);
+                }
+            } else {
+                if(validation.isValidDateOrder(dateFilter.start, e.target.value)) {
+                    dateFilter.end = e.target.value;
+                    this.handleSelectChange('dates', dateFilter);
+                }
+            }
+        }
+        //TODO alert message if incorrect
     }
 
     /**
@@ -104,6 +122,7 @@ class ControlPanel extends Component {
             }
             typeaheads.add(e[0]);
             this.handleSelectChange('category', typeaheads);
+            this.refs.typeahead.getInstance().clear();
         }
     }
 
@@ -134,11 +153,11 @@ class ControlPanel extends Component {
      * @param e
      */
     resetFilters(e) {
-        console.log('resetting');
         this.props.onFilterChange({
             categories: new Set(),
             accounts: new Set(),
-            columns: this.props.defaultColumns
+            columns: this.props.defaultColumns,
+            dates:{start:'', end:''}
         });
     }
 
@@ -147,34 +166,47 @@ class ControlPanel extends Component {
             <div className="panel panel-default control-panel">
                 <div className="panel-heading">
                     <h3>Filter Options</h3>
-                    <button className="btn btn-sm btn-warning" id="clear-filters-btn" onClick={this.resetFilters}>Clear</button></div>
+                    <button className="btn btn-sm btn-default" id="clear-filters-btn" onClick={this.resetFilters}>Reset</button></div>
                 <div className="panel-body">
                     <div className="list-group">
-                        <div className="list-group-item filter-types">
-                            <a>Categories</a></div>
+                        <a className="list-group-item filter-types">Categories</a>
                         <div>
-                            <Typeahead options={this.props.categories}
+                            <Typeahead multiple
+                                       options={this.props.categories}
                                        maxResults={5}
                                        onChange={this.handleTypeahead}
-                                       submitFormOnEnter={true}/>
+                                       selected={Array.from(this.state.categoryFilter)}
+                                       ref="typeahead"/>
                         </div>
                         <br/>
-                        <div className="list-group-item filter-types">
-                            <a data-toggle="collapse" href="#accounts-filter-collapse">Accounts</a>
+                        <a data-toggle="collapse" className="list-group-item filter-types" href="#date-filter-collapse">Dates</a>
+
+                        <div className="collapse in" id="date-filter-collapse">
+                            <div className="form-group form-inline">
+                                <label className="control-label control-panel">Start</label>
+                                <input type="date" name="start-date" className="form-control input-sm"
+                                       value={this.state.dateFilter.start}
+                                       id="start-date" onChange={this.handleDateFilter}/>
+                            </div>
+                            <div className="form-group form-inline">
+                                <label className="control-label control-panel">End</label>
+                                <input type="date" name="end-date" className="form-control input-sm"
+                                       value={this.state.dateFilter.end}
+                                       id="end-date" onChange={this.handleDateFilter}/>
+                            </div>
                         </div>
+                        <a className="list-group-item filter-types" data-toggle="collapse" href="#accounts-filter-collapse">Accounts</a>
                         <div className="collapse in" id="accounts-filter-collapse">
                             <FilterList type="accounts"
-                                        data={this.state.accounts}
+                                        data={this.process(this.props.accounts, 'accountName', 'institutionName', 'accountId')}
                                         selected={this.state.accountFilter}
                                         multi={false}
                                         onSelected={this.handleSelectChange}/>
                         </div>
-                        <div className="list-group-item filter-types">
-                            <a data-toggle="collapse" href="#columns-filter-collapse">Display options</a>
-                        </div>
+                        <a className="list-group-item filter-types" data-toggle="collapse" href="#columns-filter-collapse">Display options</a>
                         <div className="collapse" id="columns-filter-collapse">
                             <FilterList type="columns"
-                                        data={this.state.columns}
+                                        data={this.columns}
                                         selected={this.state.columnFilter}
                                         multi={true}
                                         onSelected={this.handleSelectChange}/>
