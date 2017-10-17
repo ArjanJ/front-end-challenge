@@ -1,12 +1,4 @@
 .ticker-container {
-    width:100px;
-    height:50px;
-    position:absolute;
-    right:43px;
-    top:42px;
     border:0;
-}
-.ticker-container > table > thead > tr > th,
-.ticker-container > table > tbody > tr > td{
-    border:0;
+    text-align:right;
 }

@@ -25,7 +25,6 @@ class Ticker extends Component {
     }
 
     componentWillReceiveProps(nextProps, prevState) {
-        console.log(nextProps.processed)
         if(nextProps.processed != undefined) {
             this.setState({
                 amount: this.calculate(nextProps.processed),
@@ -45,15 +44,12 @@ class Ticker extends Component {
     render() {
         return (
             <div className="ticker-container">
-                <table className="table" id="ticker">
-                    <thead><tr>
-                        <th>bal</th><th>count</th>
-                    </tr></thead>
-                    <tbody><tr>
-                        <td>{this.state.amount.toFixed(2)}</td>
-                        <td>{this.state.rows}</td>
-                    </tr></tbody>
-                </table>
+                <span>balance </span>
+                <span className={this.state.amount < 0 ? 'amount amount-negative':'amount amount-positive'}>
+                    ${((this.state.amount*100)/100).toFixed(2)}&nbsp;
+                </span>
+                <span>count </span>
+                <span>{this.state.rows}</span>
             </div>
         );
     }
