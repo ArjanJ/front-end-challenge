@@ -24786,13 +24786,13 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
-var token = document.head.querySelector('meta[name="csrf-token"]');
+/*let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}*/
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -55809,7 +55809,7 @@ var Dashboard = function (_Component) {
                     this.state.loading ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'loader-spinner' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/images/Ellipsis.svg', alt: 'loader from https://loading.io/spinner/ellipsis\'',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'public/images/Ellipsis.svg', alt: 'loader from https://loading.io/spinner/ellipsis\'',
                             title: 'https://loading.io/spinner/ellipsis\'' })
                     ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
