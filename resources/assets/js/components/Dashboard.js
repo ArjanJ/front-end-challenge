@@ -131,12 +131,12 @@ class Dashboard extends Component {
                         </div> :
                     <div className="row">
                         <div className="col-lg-3">
+                            <Statistics transactions={this.state.processed}/>
                             <ControlPanel categories={this.state.categories}
                                           accounts={this.state.accounts}
                                           filters={this.state.filters}
                                           defaultColumns={this.state.defaultColumns}
                                           onFilterChange={this.handleFilterChange}/>
-                            <Statistics />
                         </div>
                         <div className="col-lg-9">
                             <Feed transactions={this.state.processed}
