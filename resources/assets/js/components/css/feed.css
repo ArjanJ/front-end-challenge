@@ -1,5 +1,6 @@
 .amount {
     font-weight:800;
+    color:black;
 }
 .amount-positive {
     color:green;
@@ -9,4 +10,10 @@
 }
 .category-tag {
     margin-right:3px;
+}
+.currency-field {
+    text-align:right;
+}
+.feed-summary, .feed-summary > div {
+    height:25px;
 }

@@ -2,15 +2,20 @@
     position: absolute;
     top: 30px;
     right: 30px;
-    border-radius:60px;
+    border-radius:10px;
 }
 .filter-types {
     background:#f7f7f7;
     border:0;
 }
-.filter-types > a {
+a.filter-types {
     color:black;
+    margin-bottom:5px;
 }
-.filter-types > a:hover {
+a.filter-types:hover {
     text-decoration:none;
+}
+.control-label.control-panel {
+    width:47px;
+    padding-left:5px;
 }

@@ -1,3 +1,6 @@
+body {
+    background:#f7f7f7;
+}
 .navbar-default {
     background-color:#015249!important;
 }
@@ -18,14 +21,21 @@ ul.nav.navbar-nav {
     font-weight:400;
     font-size:16px;
 }
-.panel.panel-default.feed > .panel-heading {
-    background-color:#77C9D4;
-    color:white;
-}
-.panel.panel-default.control-panel > .panel-heading {
-    background-color:#57BC90;
+.panel.panel-default.feed > .panel-heading,
+.panel.panel-default.control-panel > .panel-heading{
+    background-color:#80a352;
     color:white;
 }
 .panel > .panel-heading > h3{
     font-weight:400;
+}
+.loader-spinner {
+    height:100%;
+    width:100%;
+}
+.loader-spinner > img{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
 }

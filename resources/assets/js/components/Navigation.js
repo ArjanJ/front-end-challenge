@@ -7,8 +7,6 @@ class Navigation extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        };
     }
 
     render() {
@@ -26,7 +24,7 @@ class Navigation extends Component {
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a>Settings</a></li>
+                            <li><a><span style={{paddingTop:"4px"}} className="glyphicon glyphicon-cog"></span></a></li>
                             <li><a>Logout</a></li>
                         </ul>
                     </div>
