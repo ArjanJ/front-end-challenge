@@ -1,0 +1,46 @@
+body {
+    background:#f7f7f7;
+}
+.navbar-default {
+    background-color:#015249!important;
+}
+.navbar {
+    min-height:65px;
+    z-index:10;
+}
+.navbar > .container {
+    padding-top:5px;
+}
+.navbar-brand {
+    text-transform:uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-weight:500;
+    font-size:24px;
+}
+ul.nav.navbar-nav {
+    font-family: 'Roboto', sans-serif;
+    font-weight:400;
+    font-size:16px;
+}
+.panel.dashboard-section > .panel-heading{
+    background-color:#80a352;
+    color:white;
+    height:60px;
+}
+.panel > .panel-heading > h3{
+    font-weight:400;
+    margin-top:10px;
+}
+.loader-spinner {
+    height:100%;
+    width:100%;
+}
+.loader-spinner > img{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+}
+.toastify {
+    z-index:600!important;
+}

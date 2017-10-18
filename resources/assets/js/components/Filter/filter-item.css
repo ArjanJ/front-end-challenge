@@ -1,0 +1,22 @@
+.btn-filter-item {
+    width:100%;
+    text-align:left;
+    color:black;
+    background-color:white;
+    border:0;
+    font-weight:400;
+}
+
+.btn-filter-item > h5 {
+    font-weight:400;
+}
+.btn-filter-item:not(.pressed):hover > h5 {
+    color:#2ab27b;
+}
+.btn-filter-item.pressed {
+    background-color:#2ab27b;
+    color:#FFF;
+}
+.btn-filter-item.pressed > h5{
+    font-weight:600;
+}

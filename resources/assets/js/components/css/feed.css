@@ -1,0 +1,23 @@
+.amount {
+    font-weight:800;
+    color:black;
+}
+.amount-positive {
+    color:green;
+}
+.amount-negative {
+    color:red;
+}
+.category-tag {
+    margin-right:3px;
+}
+.currency-field {
+    text-align:right;
+}
+.feed-summary > div > .control-label {
+    margin-right:5px;
+    font-weight:300;
+}
+.date-display {
+    text-align:right;
+}

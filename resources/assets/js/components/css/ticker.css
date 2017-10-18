@@ -1,0 +1,7 @@
+.ticker-container {
+    border:0;
+    text-align:left;
+}
+.ticker-container > table {
+    margin-bottom:0;
+}
