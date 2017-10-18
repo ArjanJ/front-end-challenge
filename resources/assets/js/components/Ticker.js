@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './css/ticker.css';
 
 /**
- * Running balance across all accounts and currently filtered.
+ * Running balance across currently filtered transactions.
  */
 class Ticker extends Component {
 
@@ -44,12 +44,17 @@ class Ticker extends Component {
     render() {
         return (
             <div className="ticker-container">
-                <span>calculated balance </span>
-                <span className={this.state.amount < 0 ? 'amount amount-negative':'amount amount-positive'}>
-                    ${((this.state.amount*100)/100).toFixed(2)}&nbsp;
-                </span>
-                <span># of transactions </span>
-                <span className="amount">{this.state.rows}</span>
+                <table className="table">
+                    <thead><tr><th>balance</th><th># filtered</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><span className={this.state.amount < 0 ? 'amount amount-negative':'amount amount-positive'}>
+                                    ${((this.state.amount*100)/100).toFixed(2)}
+                                </span></td>
+                            <td><span className="amount">{this.state.rows}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }

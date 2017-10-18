@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 /**
- * Top bar, mainly for aesthetics but potentially to intro actual nav.
+ * Top bar, mainly for aesthetics but potentially to intro actual nav at some point.
  */
 class Navigation extends Component {
 

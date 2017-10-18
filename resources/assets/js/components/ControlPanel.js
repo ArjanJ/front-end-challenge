@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import FilterList from './Filter/FilterList';
 import {Typeahead} from 'react-bootstrap-typeahead';
+import {toast} from 'react-toastify';
 import './css/control-panel.css';
 import * as validation from '../scripts/validation';
+
 /**
- * Side located control panel that shows category and account options.
+ * Side located control panel that shows category and account filtering options.
  */
 class ControlPanel extends Component {
 
     constructor(props) {
-        super(props); //don't actually need state probably
+        super(props); 
         this.state = {
-            accountFilter: new Set, //actual accounts and categories as props
+            accountFilter: new Set, 
             categoryFilter: new Set,
             columnFilter: new Set,
             dateFilter: {start:'', end:''}
@@ -60,6 +62,11 @@ class ControlPanel extends Component {
         });
     }
 
+    /**
+     * Filter changes pass through here.
+     * @param {*} type      kind of filter
+     * @param {*} selected  filter object to replace
+     */
     handleSelectChange(type, selected) {
         let filters = {
             accounts:this.state.accountFilter,
@@ -90,7 +97,6 @@ class ControlPanel extends Component {
 
     handleDateFilter(e) {
         if(e.target.value != undefined) {
-            let dateArray = e.target.value.split('-');
             let dateFilter = {
                 start:this.state.dateFilter.start,
                 end:this.state.dateFilter.end
@@ -99,15 +105,19 @@ class ControlPanel extends Component {
                 if(validation.isValidDateOrder(e.target.value,dateFilter.end)) {
                     dateFilter.start = e.target.value;
                     this.handleSelectChange('dates', dateFilter);
+                    return;
                 }
             } else {
                 if(validation.isValidDateOrder(dateFilter.start, e.target.value)) {
                     dateFilter.end = e.target.value;
                     this.handleSelectChange('dates', dateFilter);
+                    return;
                 }
             }
         }
-        //TODO alert message if incorrect
+        toast.error("Error: start date must be before end date", {
+            position: toast.POSITION.TOP_LEFT
+          });
     }
 
     /**

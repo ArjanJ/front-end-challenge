@@ -1,6 +1,7 @@
 # Vincent Lee  
 
-Using Laravel because of API built-ins and scaffolding.
+Using Laravel initally because I wanted to use it to do some processing initially / to model api calls.  
+Also scaffolding, mixins, etc. 
 
 ## Oct 11, 2017  
 
@@ -35,4 +36,9 @@ Using Laravel because of API built-ins and scaffolding.
 - More scalable filtering  
 - Statistics component finished  
 - React wrapper for chart.js  
- 
+
+## Oct 17  
+- Lightweight files -- no more laravel  
+- Date display on feed  
+- Change loader colours; swap blue for grey  
+- React-toastify for more meaningful error messages.

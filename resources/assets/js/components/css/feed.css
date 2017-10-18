@@ -14,6 +14,10 @@
 .currency-field {
     text-align:right;
 }
-.feed-summary, .feed-summary > div {
-    height:25px;
+.feed-summary > div > .control-label {
+    margin-right:5px;
+    font-weight:300;
+}
+.date-display {
+    text-align:right;
 }

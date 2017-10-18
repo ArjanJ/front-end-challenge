@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './filter-item.css';
+
 /**
  * Holds all transactions and filters them as needed.
  */
 class FilterItem extends Component {
 
     /**
-     * data:{title, subtitle, id}
      * @param props
      */
     constructor(props) {
@@ -37,7 +37,7 @@ class FilterItem extends Component {
     }
 
     render() {
-        let data = this.props.data;
+        let data = this.props.data; //data:{title, subtitle, id}
         return (
             <div className="form-check">
                 <button className={this.state.selected ? 'btn-filter-item pressed':'btn-filter-item' } onClick={this.handleChange}>

@@ -6,6 +6,7 @@ body {
 }
 .navbar {
     min-height:65px;
+    z-index:10;
 }
 .navbar > .container {
     padding-top:5px;
@@ -39,4 +40,7 @@ ul.nav.navbar-nav {
     left:50%;
     top:50%;
     transform: translate(-50%, -50%);
+}
+.toastify {
+    z-index:600!important;
 }

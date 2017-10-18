@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Ticker from './Ticker';
 import ReactTable from 'react-table';
+import dateFormat from 'dateformat';
 import 'react-table/react-table.css';
 import './css/feed.css';
 const allColumns = [{
@@ -44,7 +44,7 @@ const allColumns = [{
     </span>
 }];
 /**
- * Holds all transactions and filters them as needed.
+ * Display all transactions in a dynamic, customizable, filterable table. 
  */
 class Feed extends Component {
 
@@ -92,6 +92,10 @@ class Feed extends Component {
         return obj == undefined || (Array.isArray(obj) && obj.length == 0);
     }
 
+    /**
+     * Dismiss a category that is currently being filtered.
+     * @param {*} e onClick event
+     */
     dismissCategory(e) {
         let id = e.target.parentElement.dataset.id; //anchor tag
         let replacement = new Set;
@@ -110,7 +114,7 @@ class Feed extends Component {
 
     render() {
         let categories = [];
-        for(let c of this.props.filters.categories) {
+        for(let c of this.props.filters.categories) { //render category filter tags
             categories.push(
                 <span className="label label-primary category-tag" key={'feed-tag-category-'+c}>{c}
                 <a onClick={this.dismissCategory} data-id={c} style={{color:"white"}}>
@@ -125,18 +129,22 @@ class Feed extends Component {
                 </div>
                 <div className="panel-body">
                     <div className="row feed-summary">
-                        <div className="col-lg-8 col-sm-12 col-xs-12">
-                            <div>Categories: {this.props.filters.categories.size != 0 ? categories :
-                                <span className="label label-default">No selected categories</span>}
-                            </div>
+                        <div className="col-lg-8">
+                            <span className="control-label">Categories:</span> 
+                            {this.props.filters.categories.size != 0 ? 
+                                categories : <span className="label label-default">No selected categories</span>}
                         </div>
-                        <div className="col-lg-4 col-sm-12 col-xs-12">
-                            <Ticker processed={this.props.transactions}/>
+                        <div className="col-lg-4 date-display">
+                            <span className="control-label">From:</span>
+                            <span>{this.props.filters.dates.start != '' ? this.props.filters.dates.start : 'all time'}</span>
+                            &nbsp;
+                            <span className="control-label">To: </span>
+                            <span>{this.props.filters.dates.end != '' ? this.props.filters.dates.end:dateFormat(new Date(), 'yyyy-mm-dd') } </span>
                         </div>
                     </div>
                     <hr/>
                     <ReactTable data={this.props.transactions}
-                                noDataText="No data to show!"
+                                noDataText="No data to show."
                                 columns={this.state.columns}
                                 className="-striped -higlight"/>
                 </div>

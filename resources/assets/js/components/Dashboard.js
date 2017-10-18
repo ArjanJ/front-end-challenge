@@ -5,6 +5,8 @@ import ControlPanel from './ControlPanel';
 import Feed from './Feed';
 import Statistics from './Statistics';
 import './css/dashboard.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 /**
  * Consolidates a user's transaction history across all accounts.
  * Sorting, filtering for data digestion happens at this component.
@@ -14,7 +16,7 @@ class Dashboard extends Component {
 
     constructor(props) {
         super(props);
-        let columnFilters = new Set();
+        let columnFilters = new Set(); //user can potentially introduce defaults
         columnFilters.add('transactionDate').add('description').add('amount').add('category').add('runningBalance'); //default columns
         this.state = {
             loading: true,
@@ -35,7 +37,7 @@ class Dashboard extends Component {
     }
 
     /**
-     * Entry point for data to the app.
+     * Entry point for data.
      */
     componentDidMount() {
         fetch('http://demo7235469.mockable.io/transactions')
@@ -60,6 +62,11 @@ class Dashboard extends Component {
                     processed:this.filter(this.state.filters, ttransform)
                 });
                 setTimeout(() => this.setState({ loading: false }), 1000);
+            })
+            .catch(error => {
+                toast.error("Error: something went wrong, unable to load page. "+error, {
+                    position: toast.POSITION.TOP_LEFT
+                  });
             });
     }
 
@@ -123,6 +130,14 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
+                <ToastContainer 
+                        type="default"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        pauseOnHover
+                        />
                 <Navigation/>
                 <div className="container">
                     {this.state.loading ?
@@ -146,6 +161,7 @@ class Dashboard extends Component {
                             />
                         </div>
                     </div>}
+                    
                 </div>
             </div>);
     }

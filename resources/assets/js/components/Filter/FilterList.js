@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FilterItem from './FilterItem';
 /**
- * Holds all transactions and filters them as needed.
+ * A list of items that may be used to collect and edit a set of filters. 
  */
 class FilterList extends Component {
 

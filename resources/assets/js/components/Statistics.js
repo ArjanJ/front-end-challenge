@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Doughnut} from 'react-chartjs-2';
+import Ticker from './Ticker';
+
 /**
- * Top bar, mainly for aesthetics but potentially to intro actual nav.
+ * Display summary of transaction data with meaningful, easy-to-interpret graphics.
  */
 class Statistics extends Component {
 
@@ -21,7 +23,9 @@ class Statistics extends Component {
     }
 
     componentWillReceiveProps(nextProps, prevState) {
-        this.updateIncomeVsOutcome(nextProps.transactions)
+        if(nextProps.transactions) {
+            this.updateIncomeVsOutcome(nextProps.transactions)            
+        }
     }
 
     updateIncomeVsOutcome(transactions) {
@@ -40,8 +44,7 @@ class Statistics extends Component {
                 }
             });
         }
-        //TODO sort top five categoires
-        sums.sort((a,b) => {
+        sums.sort((a,b) => {  //sort top five categories
             return a.sum - b.sum;
         });
         let amounts = [];
@@ -89,7 +92,7 @@ class Statistics extends Component {
                 text:'Top spending categories based on current selections'
             },
             legend: {
-                display:false
+                display:false,
             }
         };
 
@@ -100,6 +103,7 @@ class Statistics extends Component {
                 </div>
                 <div className="panel-body">
                     <Doughnut data={data} options={options} />
+                    <Ticker processed={this.props.transactions}/>                    
                 </div>
             </div>
         );
